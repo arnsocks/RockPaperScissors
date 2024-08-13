@@ -1,5 +1,4 @@
 console.log("Hello from the main.js");
-console.log("Rock" == "rock");
 
 function getComputerChoice() {
   // CREATE a variable call Choice
@@ -43,10 +42,42 @@ function getHumanChoice() {
   } else {
     choice = "Invalid choice";
   }
-
-  choice = input;
   return choice;
 }
 
-console.log(getComputerChoice());
-console.log(getHumanChoice());
+let humanScore = 0;
+let computerScore = 0;
+
+function playRound(humanChoice, computerChoice){
+  function determineWinner(humanPick, computerPick) {
+    if (humanPick === computerPick) {
+      return 'draw';
+    } else if (humanPick === 'Rock') {
+      return (computerPick === 'Scissors') ? 'human' : 'computer';
+    } else if (humanPick === 'Paper') {
+      return (computerPick === 'Rock') ? 'human' : 'computer';
+    } else if (humanPick === 'Scissors') {
+      return (computerPick === 'Paper') ? 'human' : 'computer';
+    } 
+
+  }
+
+  let winner = determineWinner(humanChoice,computerChoice);
+
+  if (winner == 'human') {
+    humanScore ++;
+    console.log("You won the round");
+  } else if(winner == 'computer') {
+    computerScore ++;
+    console.log("You lost the round.");
+  } else {
+    console.log("The round was a draw.");
+  }
+  console.log(`The computer chose ${computerChoice} and you chose ${humanChoice}`);
+  console.log(`Computer: ${computerScore} | Human: ${humanScore}`);
+}
+
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
+
+playRound(humanSelection, computerSelection);
