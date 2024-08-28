@@ -59,11 +59,11 @@ function playGame(numRounds) {
       if (humanPick === computerPick) { // if the picks are the same then it's always a draw
         return 'draw';
       } else if (humanPick === 'Rock') {
-        return (computerPick === 'Scissors') ? 'human' : 'computer';
+        return (computerPick === 'Scissors') ? 'human' : 'computer'; // Rock beats Scissors
       } else if (humanPick === 'Paper') {
-        return (computerPick === 'Rock') ? 'human' : 'computer';
+        return (computerPick === 'Rock') ? 'human' : 'computer'; // Paper beats Rock
       } else if (humanPick === 'Scissors') {
-        return (computerPick === 'Paper') ? 'human' : 'computer';
+        return (computerPick === 'Paper') ? 'human' : 'computer'; // Scissors beats Paper
       } 
     }
   }
