@@ -1,9 +1,31 @@
 const buttons = document.querySelectorAll('button');
+const results = document.querySelector("#results");
+const humanScoreBoard = document.querySelector("#human-score");
+const compScoreBoard = document.querySelector("#comp-score");
 
 let humanScore = 0;
 let computerScore = 0;
+let roundNum = 1;
 
-function getComputerChoice() { // Have the computer randomly select a choice
+const result = document.createElement('p');
+const choices = document.createElement('p');
+results.appendChild(result);
+results.appendChild(choices);
+
+setupGame();
+
+function setupGame() {
+  humanScore = 0;
+  computerScore = 0;
+  roundNum = 1;
+  result.textContent = '';
+  choices.textContent = '';
+
+
+
+}
+
+function getComputerChoice() { 
   let choice = '';
   let num = Math.floor(Math.random()*3);
   if (num == 0) {
@@ -29,15 +51,21 @@ function playRound(){
 
   if (winner == 'human') {
     humanScore ++;
-    console.log("You won the round");
+    result.textContent = "You win the round!";
   } else if(winner == 'computer') {
     computerScore ++;
-    console.log("You lost the round.");
+    result.textContent = "The Computer wins the round!";
   } else {
-    console.log("The round was a draw.");
+    result.textContent = "Draw!";
   }
-  console.log(`The computer chose ${computerChoice} and you chose ${humanChoice}`);
-  console.log(`Computer: ${computerScore} | Human: ${humanScore}`);
+
+  humanScoreBoard.textContent = humanScore;
+  compScoreBoard.textContent = computerScore;
+
+  choices.textContent = `The computer chose ${computerChoice} and you chose ${humanChoice}`;
+
+  
+  roundNum++;
 
   function determineWinner(humanPick, computerPick) { //Figure out the result of the round
     if (humanPick === computerPick) { // if the picks are the same then it's always a draw
