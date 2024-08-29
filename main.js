@@ -1,47 +1,37 @@
-const buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('.gameButton');
 const results = document.querySelector("#results");
 const humanScoreBoard = document.querySelector("#human-score");
 const compScoreBoard = document.querySelector("#comp-score");
 
 let humanScore = 0;
 let computerScore = 0;
-let roundNum = 1;
 
 const result = document.createElement('p');
 const choices = document.createElement('p');
-results.appendChild(result);
-results.appendChild(choices);
 
 setupGame();
 
 function setupGame() {
+  //Reset all the scores and messages
   humanScore = 0;
   computerScore = 0;
-  roundNum = 1;
+  humanScoreBoard.textContent = humanScore;
+  compScoreBoard.textContent = computerScore;
   result.textContent = '';
   choices.textContent = '';
 
-
-
-}
-
-function getComputerChoice() { 
-  let choice = '';
-  let num = Math.floor(Math.random()*3);
-  if (num == 0) {
-    choice = "Rock";
-  } else if (num == 1) {
-    choice = "Paper";
-  } else if (num == 2) {
-    choice = "Scissors";
-  } else {
-    choice = "Something went wrong";
+  //Remove everything from the results div
+  while(results.firstChild) {
+    results.removeChild(results.firstChild);
   }
-  return choice;
-}
 
-for (button of buttons) {
-  button.addEventListener('click', playRound);
+  //Put the round result elements back in
+  results.appendChild(result);
+  results.appendChild(choices);
+
+  for (button of buttons) {
+    button.addEventListener('click', playRound);
+  }
 }
 
 function playRound(){
@@ -62,10 +52,11 @@ function playRound(){
   humanScoreBoard.textContent = humanScore;
   compScoreBoard.textContent = computerScore;
 
-  choices.textContent = `The computer chose ${computerChoice} and you chose ${humanChoice}`;
+  choices.textContent = `You chose ${humanChoice} and the computer chose ${computerChoice}`;
 
-  
-  roundNum++;
+  if (humanScore > 4 || computerScore > 4) {
+    announceWinner(winner);
+  }
 
   function determineWinner(humanPick, computerPick) { //Figure out the result of the round
     if (humanPick === computerPick) { // if the picks are the same then it's always a draw
@@ -78,4 +69,36 @@ function playRound(){
       return (computerPick === 'Paper') ? 'human' : 'computer'; // Scissors beats Paper
     } 
   }
+}
+
+function getComputerChoice() { 
+  let choice = '';
+  let num = Math.floor(Math.random()*3);
+  if (num == 0) {
+    choice = "Rock";
+  } else if (num == 1) {
+    choice = "Paper";
+  } else if (num == 2) {
+    choice = "Scissors";
+  } else {
+    choice = "Something went wrong";
+  }
+  return choice;
+}
+
+function announceWinner(winner) {
+  let message = winner === 'human' ? "You won the match!" : "Sorry, the computer won the match.";
+
+  const gameOver = document.createElement('p');
+  gameOver.textContent = message;
+  results.appendChild(gameOver);
+
+  for (button of buttons) {
+    button.removeEventListener('click', playRound);
+  }
+  const newGameBtn = document.createElement('button');
+  newGameBtn.textContent = "Play Again?";
+  results.appendChild(newGameBtn);
+
+  newGameBtn.addEventListener('click', setupGame);
 }
